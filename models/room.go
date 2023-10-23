@@ -1,4 +1,4 @@
-package model
+package models
 
 import "gorm.io/gorm"
 
@@ -7,7 +7,7 @@ type TipeKamar struct {
 	Description string
 }
 
-// Room represents the Rooms model with NamaKamar and a reference to TipeKamar.
+// Room represents the Rooms models with NamaKamar and a reference to TipeKamar.
 type Kamar struct {
 	gorm.Model
 	NamaKamar   string    `json:"namaKamar"`
@@ -15,7 +15,7 @@ type Kamar struct {
 	TipeKamar   TipeKamar `gorm:"foreignKey:TipeKamarID" json:"TipeKamar"`
 }
 
-// RoomAvailable represents the RoomAvailable model with waktu, status, price, and a reference to Rooms.
+// RoomAvailable represents the RoomAvailable models with waktu, status, price, and a reference to Rooms.
 type KamarAvailable struct {
 	gorm.Model
 	Waktu   string  `json:"waktu"`

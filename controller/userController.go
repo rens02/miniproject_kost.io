@@ -3,8 +3,8 @@ package controller
 import (
 	"app/config"
 	"app/middleware"
-	"app/model"
-	"app/model/web"
+	"app/models"
+	"app/models/web"
 	"app/utils"
 	"app/utils/req"
 	"app/utils/res"
@@ -20,7 +20,7 @@ func Show(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid ID"))
 	}
 
-	var user model.User
+	var user models.User
 
 	if err := config.DB.First(&user, id).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve user"))
@@ -60,7 +60,7 @@ func LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid request body"))
 	}
 
-	var user model.User
+	var user models.User
 	if err := config.DB.Where("email = ?", loginRequest.Email).First(&user).Error; err != nil {
 		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
 	}

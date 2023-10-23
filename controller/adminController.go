@@ -3,8 +3,8 @@ package controller
 import (
 	"app/config"
 	"app/middleware"
-	"app/model"
-	"app/model/web"
+	"app/models"
+	"app/models/web"
 	"app/utils"
 	"app/utils/res"
 	"github.com/labstack/echo/v4"
@@ -13,7 +13,7 @@ import (
 )
 
 func Index(c echo.Context) error {
-	var users []model.User
+	var users []models.User
 
 	err := config.DB.Find(&users).Error
 	if err != nil {
@@ -35,13 +35,13 @@ func Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid ID"))
 	}
 
-	var updatedUser model.User
+	var updatedUser models.User
 
 	if err := c.Bind(&updatedUser); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid request body"))
 	}
 
-	var existingUser model.User
+	var existingUser models.User
 	result := config.DB.First(&existingUser, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve user"))
@@ -60,7 +60,7 @@ func Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid ID"))
 	}
 
-	var existingUser model.User
+	var existingUser models.User
 	result := config.DB.First(&existingUser, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve user"))
@@ -78,7 +78,7 @@ func LoginAdmin(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid request body"))
 	}
 
-	var user model.User
+	var user models.User
 	if err := config.DB.Where("email = ?", loginRequest.Email).First(&user).Error; err != nil {
 		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
 	}

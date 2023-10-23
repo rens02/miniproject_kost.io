@@ -1,14 +1,14 @@
 package req
 
 import (
-	"app/model"
-	"app/model/web"
+	"app/models"
+	"app/models/web"
 )
 
-func PassBody(users web.UserRequest) *model.User {
-	return &model.User{
-		Name: users.Name,
-		Email: users.Email,
+func PassBody(users web.UserRequest) *models.User {
+	return &models.User{
+		Name:     users.Name,
+		Email:    users.Email,
 		Password: users.Password,
 	}
 }
