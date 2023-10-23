@@ -26,7 +26,8 @@ func Init() *echo.Echo {
 	Admin.GET("/users", controller.Index)
 	Admin.GET("/users/:id", controller.Show)
 	e.POST("/users/register", controller.Store)
-	e.POST("/users/login", controller.Login)
+	e.POST("/users/login", controller.LoginUser)
+	e.POST("/admin/login", controller.LoginAdmin)
 	Admin.PUT("/users/:id", controller.Update)
 	Admin.DELETE("/users/:id", controller.Delete)
 

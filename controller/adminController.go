@@ -2,7 +2,9 @@ package controller
 
 import (
 	"app/config"
+	"app/middleware"
 	"app/model"
+	"app/model/web"
 	"app/utils"
 	"app/utils/res"
 	"github.com/labstack/echo/v4"
@@ -67,4 +69,32 @@ func Delete(c echo.Context) error {
 	config.DB.Delete(&existingUser)
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("User data successfully deleted", nil))
+}
+
+func LoginAdmin(c echo.Context) error {
+	var loginRequest web.LoginRequest
+
+	if err := c.Bind(&loginRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid request body"))
+	}
+
+	var user model.User
+	if err := config.DB.Where("email = ?", loginRequest.Email).First(&user).Error; err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
+	}
+
+	if err := middleware.ComparePassword(user.Password, loginRequest.Password); err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
+	}
+
+	token := middleware.CreateTokenAdmin(int(user.ID), user.Name)
+
+	// Buat respons dengan data yang diminta
+	response := web.UserLoginResponse{
+		Email:    user.Email,
+		Password: loginRequest.Password,
+		Token:    token,
+	}
+
+	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
 }

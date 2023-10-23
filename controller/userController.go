@@ -53,7 +53,7 @@ func Store(c echo.Context) error {
 	return c.JSON(http.StatusCreated, utils.SuccessResponse("Success Created Data", response))
 }
 
-func Login(c echo.Context) error {
+func LoginUser(c echo.Context) error {
 	var loginRequest web.LoginRequest
 
 	if err := c.Bind(&loginRequest); err != nil {
@@ -78,5 +78,5 @@ func Login(c echo.Context) error {
 		Token:    token,
 	}
 
-	return c.JSON(http.StatusOK, utils.SuccessResponse("Login successful", response))
+	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
 }
