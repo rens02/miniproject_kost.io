@@ -1,11 +1,11 @@
 package res
 
 import (
-	"app/model"
-	"app/model/web"
+	"app/models"
+	"app/models/web"
 )
 
-func ConvertIndex(users []model.User) []web.UserReponse {
+func ConvertIndex(users []models.User) []web.UserReponse {
 	var results []web.UserReponse
 	for _, user := range users {
 		userResponse := web.UserReponse{
@@ -20,7 +20,7 @@ func ConvertIndex(users []model.User) []web.UserReponse {
 	return results
 }
 
-func ConvertGeneral(user *model.User) web.UserReponse {
+func ConvertGeneral(user *models.User) web.UserReponse {
 	return web.UserReponse{
 		Id:       int(user.ID),
 		Name:     user.Name,

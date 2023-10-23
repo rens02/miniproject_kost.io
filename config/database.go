@@ -1,7 +1,7 @@
 package config
 
 import (
-	"app/model"
+	"app/models"
 	"fmt"
 	"os"
 
@@ -36,11 +36,11 @@ func ConnectDB() {
 		panic("Failed to Connect Database")
 	}
 
-    InitMigrate()
+	InitMigrate()
 
 	fmt.Println("Connected to Database")
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&model.User{})
+	DB.AutoMigrate(&models.User{}, &models.Kamar{}, &models.TipeKamar{}, &models.KamarAvailable{})
 }
