@@ -2,13 +2,9 @@ package controller
 
 import (
 	"app/config"
-<<<<<<< Updated upstream
-	"app/model"
-=======
 	"app/middleware"
 	"app/models"
 	"app/models/web"
->>>>>>> Stashed changes
 	"app/utils"
 	"app/utils/res"
 	"github.com/labstack/echo/v4"
@@ -74,8 +70,6 @@ func Delete(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("User data successfully deleted", nil))
 }
-<<<<<<< Updated upstream
-=======
 
 func LoginAdmin(c echo.Context) error {
 	var loginRequest web.LoginRequest
@@ -104,4 +98,3 @@ func LoginAdmin(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
 }
->>>>>>> Stashed changes
