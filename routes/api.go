@@ -31,6 +31,12 @@ func Init() *echo.Echo {
 	Admin.PUT("/users/:id", controller.Update)
 	Admin.DELETE("/users/:id", controller.Delete)
 
+	Admin.POST("/tipe-kamar", controller.CreateTipeKamar)
+	e.GET("/tipe-kamar", controller.GetAllTipeKamar)
+	Admin.DELETE("/tipe-kamar/:id", controller.DeleteTipeKamar)
+	Admin.PUT("/tipe-kamar/:id", controller.UpdateTipeKamar)
+
+	Admin.POST("/kamar", controller.CreateKamar)
 	return e
 
 }

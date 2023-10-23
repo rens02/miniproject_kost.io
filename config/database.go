@@ -42,5 +42,5 @@ func ConnectDB() {
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.User{}, &models.Kamar{}, &models.TipeKamar{}, &models.KamarAvailable{})
 }
