@@ -2,14 +2,13 @@ package controller
 
 import (
 	"app/config"
+	"app/helpers"
 	"app/models"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
 
 func CreateKamarTersedia(c echo.Context) error {
-
-	// Parse JSON request body into the KamarTersedia model
 	var KamarTersedia models.KamarTersedia
 	if err := c.Bind(&KamarTersedia); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
@@ -17,12 +16,10 @@ func CreateKamarTersedia(c echo.Context) error {
 
 	KamarTersedia.Status = models.RoomStatusAvailable
 
-	// Create the new KamarTersedia in the database
 	if err := config.DB.Create(&KamarTersedia).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create KamarTersedia"})
 	}
 
-	// Return a JSON response with the created KamarTersedia
 	return c.JSON(http.StatusCreated, KamarTersedia)
 }
 
@@ -32,10 +29,10 @@ func GetAllKamarTersedia(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve KamarTersedia"})
 	}
 
-	// Convert KamarTersedia items to KamarTersediaResponse items
-	var responseList []models.KamarTersediaResponse
+	// Convert
+	var responseList []helpers.KamarTersediaResponse
 	for _, kamarTersedia := range kamarTersediaList {
-		response := models.ResponseAvail(kamarTersedia)
+		response := helpers.ResponseAvail(kamarTersedia)
 		responseList = append(responseList, response)
 	}
 
@@ -51,7 +48,7 @@ func GetKamarTersediaByID(c echo.Context) error {
 	}
 
 	// Convert KamarTersedia to KamarTersediaResponse
-	response := models.ResponseAvail(KamarTersedia)
+	response := helpers.ResponseAvail(KamarTersedia)
 
 	return c.JSON(http.StatusOK, response)
 }
