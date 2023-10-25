@@ -51,6 +51,7 @@ func Init() *echo.Echo {
 	Admin.POST("/kamar-tersedia", controller.CreateKamarTersedia)
 	e.GET("/kamar-tersedia", controller.GetAllKamarTersedia)
 	e.GET("/kamar-tersedia/:id", controller.GetKamarTersediaByID)
+	Admin.GET("/extract-jwt", controller.ExtractDataJWT)
 
 	return e
 

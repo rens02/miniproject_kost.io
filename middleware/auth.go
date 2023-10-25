@@ -11,14 +11,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type jwtCustomClaims struct {
+type JwtCustomClaims struct {
 	ID   uint   `json:"id"`
 	Name string `json:"name"`
 	jwt.RegisteredClaims
 }
 
 func CreateTokenUser(userId int, name string) string {
-	var payloadParser jwtCustomClaims
+	var payloadParser JwtCustomClaims
 	UserSecretKey := os.Getenv("USER_SECRET")
 
 	payloadParser.ID = uint(userId)
@@ -31,7 +31,7 @@ func CreateTokenUser(userId int, name string) string {
 }
 
 func CreateTokenAdmin(userId int, name string) string {
-	var payloadParser jwtCustomClaims
+	var payloadParser JwtCustomClaims
 	AdminSecretKey := os.Getenv("ADMIN_SECRET")
 
 	payloadParser.ID = uint(userId)

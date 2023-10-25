@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -78,4 +79,12 @@ func LoginUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
+}
+
+func ExtractDataJWT(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	ID := int(claims["id"].(float64))
+
+	return c.String(http.StatusOK, "ID Is:  "+strconv.Itoa(ID)+"!")
 }
