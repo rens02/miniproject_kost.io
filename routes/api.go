@@ -12,12 +12,15 @@ import (
 
 func Init() *echo.Echo {
 	AdminSecretKey := os.Getenv("ADMIN_SECRET")
+	UserSecretKey := os.Getenv("USER_SECRET")
 
 	e := echo.New()
 
 	e.Use(middleware.NotFoundHandler)
 	Admin := e.Group("")
 	Admin.Use(echojwt.JWT([]byte(AdminSecretKey)))
+	User := e.Group("")
+	User.Use(echojwt.JWT([]byte(UserSecretKey)))
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Welcome to RESTful API Services")
@@ -36,9 +39,9 @@ func Init() *echo.Echo {
 
 	// ENDPOINT TIPE KAMAR (ADMIN BISA TAMBAH KURANG EDIT TIPE KAMAR, USER HANYA BISA LIHAT)
 	Admin.POST("/tipe-kamar", controller.CreateTipeKamar)
-	e.GET("/tipe-kamar", controller.GetAllTipeKamar)
 	Admin.DELETE("/tipe-kamar/:id", controller.DeleteTipeKamar)
 	Admin.PUT("/tipe-kamar/:id", controller.UpdateTipeKamar)
+	e.GET("/tipe-kamar", controller.GetAllTipeKamar)
 
 	// ENDPOINT KAMAR (ADMIN BISA TAMBAH KURANG EDIT KAMAR)
 	Admin.POST("/kamar", controller.CreateKamar)
@@ -51,7 +54,9 @@ func Init() *echo.Echo {
 	Admin.POST("/kamar-tersedia", controller.CreateKamarTersedia)
 	e.GET("/kamar-tersedia", controller.GetAllKamarTersedia)
 	e.GET("/kamar-tersedia/:id", controller.GetKamarTersediaByID)
-	Admin.GET("/extract-jwt", controller.ExtractDataJWT)
+	User.GET("/extract-jwt", controller.ExtractDataJWT)
+	User.POST("/sewa", controller.CreateRent)
+	User.GET("/sewa", controller.GetRent)
 
 	return e
 
