@@ -6,7 +6,7 @@ type RoomStatus string
 
 const (
 	RoomStatusAvailable RoomStatus = "Available"
-	RoomStatusOccupied  RoomStatus = "Kosong"
+	RoomStatusOccupied  RoomStatus = "Occupied"
 )
 
 type Sewa struct {
