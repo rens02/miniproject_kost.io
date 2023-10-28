@@ -6,9 +6,10 @@ import (
 )
 
 type KamarResponse struct {
-	ID        uint   `json:"id_kamar"`
-	NamaKamar string `json:"namaKamar"`
-	TipeKamar struct {
+	ID         uint   `json:"id_kamar"`
+	NamaKamar  string `json:"namaKamar"`
+	PhotoKamar string `json:"photoKamar"`
+	TipeKamar  struct {
 		Description string `json:"description"`
 		Fasilitas   string `json:"fasilitas"`
 	} `json:"TipeKamar"`
@@ -46,8 +47,9 @@ func TipeKamarConvert(tipeKamar models.TipeKamar) TipeKamarResponse {
 
 func KamarConvert(kamar models.Kamar) KamarResponse {
 	response := KamarResponse{
-		ID:        kamar.ID,
-		NamaKamar: kamar.NamaKamar,
+		ID:         kamar.ID,
+		NamaKamar:  kamar.NamaKamar,
+		PhotoKamar: kamar.PhotoKamar,
 	}
 
 	response.TipeKamar.Description = kamar.TipeKamar.Description

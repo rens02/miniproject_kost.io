@@ -62,6 +62,8 @@ func Init() *echo.Echo {
 	User.GET("/user/sewa", controller.GetRent)
 	User.GET("/user/history", controller.GetRentHistory)
 
+	User.POST("/user/rekomendasi", controller.GetRecommendation)
+
 	return e
 
 }
