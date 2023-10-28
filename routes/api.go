@@ -32,31 +32,35 @@ func Init() *echo.Echo {
 	e.POST("/admin/login", controller.LoginAdmin)
 
 	//ADMIN CAN CONTROL USER
-	Admin.GET("/users", controller.Index)
+	Admin.GET("/admin/users", controller.Index)
 	Admin.GET("/users/:id", controller.Show)
-	Admin.PUT("/users/:id", controller.Update)
-	Admin.DELETE("/users/:id", controller.Delete)
+	Admin.PUT("/admin/users/:id", controller.Update)
+	Admin.DELETE("/admin/users/:id", controller.Delete)
 
 	// ENDPOINT TIPE KAMAR (ADMIN BISA TAMBAH KURANG EDIT TIPE KAMAR, USER HANYA BISA LIHAT)
-	Admin.POST("/tipe-kamar", controller.CreateTipeKamar)
-	Admin.DELETE("/tipe-kamar/:id", controller.DeleteTipeKamar)
-	Admin.PUT("/tipe-kamar/:id", controller.UpdateTipeKamar)
+	Admin.POST("/admin/tipe-kamar", controller.CreateTipeKamar)
+	Admin.DELETE("/admin/tipe-kamar/:id", controller.DeleteTipeKamar)
+	Admin.PUT("/admin/tipe-kamar/:id", controller.UpdateTipeKamar)
 	e.GET("/tipe-kamar", controller.GetAllTipeKamar)
 
 	// ENDPOINT KAMAR (ADMIN BISA TAMBAH KURANG EDIT KAMAR)
-	Admin.POST("/kamar", controller.CreateKamar)
-	Admin.GET("/kamar", controller.GetAllKamar)
-	Admin.DELETE("/kamar/:id", controller.DeleteKamar)
-	Admin.PUT("/kamar/:id", controller.UpdateKamar)
+	Admin.POST("/admin/kamar", controller.CreateKamar)
+	Admin.DELETE("/admin/kamar/:id", controller.DeleteKamar)
+	Admin.PUT("/admin/kamar/:id", controller.UpdateKamar)
 	e.GET("/kamar/:id", controller.GetKamarByID)
+	e.GET("/kamar", controller.GetAllKamar)
 
 	// EDNPOINT KAMAR TERSEDIA (ADMIN BISA TAMBAH KURANG EDIT KAMAR TERSEDIA)
 	Admin.POST("/kamar-tersedia", controller.CreateKamarTersedia)
 	e.GET("/kamar-tersedia", controller.GetAllKamarTersedia)
 	e.GET("/kamar-tersedia/:id", controller.GetKamarTersediaByID)
 	User.GET("/extract-jwt", controller.ExtractDataJWT)
+
+	// ENDPOINT SEWA (USER BISA SEWA KAMAR)
 	User.POST("/sewa", controller.CreateRent)
-	User.GET("/sewa", controller.GetRent)
+	User.POST("/user/sewa/cancel", controller.CancelRent)
+	User.GET("/user/sewa", controller.GetRent)
+	User.GET("/user/history", controller.GetRentHistory)
 
 	return e
 
