@@ -89,11 +89,30 @@ func UpdateKamarTersediaAvailability(kamarTersediaID uint) error {
 
 	return nil
 }
+func UpdateKamarTersediaAvailable(kamarTersediaID uint) error {
+
+	// Find the KamarTersedia record by its ID
+	var kamarTersedia models.KamarTersedia
+	if err := config.DB.First(&kamarTersedia, kamarTersediaID).Error; err != nil {
+		return err
+	}
+
+	// Update the availability status
+	kamarTersedia.Status = models.RoomStatusAvailable
+
+	// Save the updated record back to the database
+	if err := config.DB.Save(&kamarTersedia).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
 
 type RentResponse struct {
-	ID        int    `json:"ID"`
-	CreatedAt string `json:"CreatedAt"`
-	User      struct {
+	ID         int    `json:"RentID"`
+	CreatedAt  string `json:"BookedAt"`
+	RentStatus string `json:"RentStatus"`
+	User       struct {
 		Name  string `json:"Name"`
 		Email string `json:"Email"`
 	} `json:"user"`
@@ -114,14 +133,34 @@ type RentResponse struct {
 
 func ResponseSewa(sewa models.Sewa) RentResponse {
 	response := RentResponse{
-		ID:        int(sewa.ID),
-		CreatedAt: sewa.CreatedAt.String(),
+		ID:         int(sewa.ID),
+		CreatedAt:  sewa.CreatedAt.String(),
+		RentStatus: string(sewa.RentStatus),
 	}
 	response.User.Name = sewa.User.Name
 	response.User.Email = sewa.User.Email
 	response.KamarTersedia.IDAvailable = int(sewa.KamarTersedia.ID)
 	response.KamarTersedia.Waktu = sewa.KamarTersedia.Waktu
 	response.KamarTersedia.Status = string(sewa.KamarTersedia.Status)
+	response.KamarTersedia.Harga = int(sewa.KamarTersedia.Price)
+	response.KamarTersedia.Kamar.NamaKamar = sewa.KamarTersedia.Kamar.NamaKamar
+	response.KamarTersedia.Kamar.TipeKamar.Description = sewa.KamarTersedia.Kamar.TipeKamar.Description
+	response.KamarTersedia.Kamar.TipeKamar.Fasilitas = sewa.KamarTersedia.Kamar.TipeKamar.Fasilitas
+
+	return response
+}
+
+func ResponseHistory(sewa models.Sewa) RentResponse {
+	response := RentResponse{
+		ID:         int(sewa.ID),
+		CreatedAt:  sewa.CreatedAt.String(),
+		RentStatus: string(sewa.RentStatus),
+	}
+	response.User.Name = sewa.User.Name
+	response.User.Email = sewa.User.Email
+	response.KamarTersedia.IDAvailable = int(sewa.KamarTersedia.ID)
+	response.KamarTersedia.Waktu = sewa.KamarTersedia.Waktu
+	response.KamarTersedia.Status = "Canceled"
 	response.KamarTersedia.Harga = int(sewa.KamarTersedia.Price)
 	response.KamarTersedia.Kamar.NamaKamar = sewa.KamarTersedia.Kamar.NamaKamar
 	response.KamarTersedia.Kamar.TipeKamar.Description = sewa.KamarTersedia.Kamar.TipeKamar.Description
