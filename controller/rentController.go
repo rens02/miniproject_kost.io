@@ -68,7 +68,7 @@ func CancelRent(c echo.Context) error {
 	claims := user.Claims.(jwt.MapClaims)
 	UserID := int(claims["id"].(float64))
 
-	rentID, err := strconv.Atoi(c.QueryParam("rent_id")) // Assuming the reservation ID is part of the URL
+	rentID, err := strconv.Atoi(c.Param("rent_id")) // Assuming the reservation ID is part of the URL
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid reservation ID"))
 	}

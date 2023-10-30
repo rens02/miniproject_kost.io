@@ -12,6 +12,8 @@ import (
 func CreateKamar(c echo.Context) error {
 	// Parse JSON request body into a Kamar model
 	var kamar models.Kamar
+	fileheader := "PhotoKamar"
+	kamar.PhotoKamar = helpers.CloudinaryUpload(c, fileheader)
 	if err := c.Bind(&kamar); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(err.Error()))
 	}

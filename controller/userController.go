@@ -82,10 +82,19 @@ func LoginUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
 }
 
-func ExtractDataJWT(c echo.Context) error {
+func Profile(c echo.Context) error {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	ID := int(claims["id"].(float64))
 
-	return c.String(http.StatusOK, "ID Is:  "+strconv.Itoa(ID)+"!")
+	var profile models.User
+
+	if err := config.DB.First(&profile, ID).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve user"))
+	}
+
+	response := res.ConvertGeneral(&profile)
+
+	return c.JSON(http.StatusOK, utils.SuccessResponse("User data successfully retrieved", response))
+
 }
