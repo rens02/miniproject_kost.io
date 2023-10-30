@@ -23,7 +23,7 @@ func CreateTokenUser(userId int, name string) string {
 
 	payloadParser.ID = uint(userId)
 	payloadParser.Name = name
-	payloadParser.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute * 60))
+	payloadParser.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Hour * 720))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payloadParser)
 	t, _ := token.SignedString([]byte(UserSecretKey))
@@ -36,7 +36,7 @@ func CreateTokenAdmin(userId int, name string) string {
 
 	payloadParser.ID = uint(userId)
 	payloadParser.Name = name
-	payloadParser.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute * 60))
+	payloadParser.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Hour * 720))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payloadParser)
 	t, _ := token.SignedString([]byte(AdminSecretKey))
