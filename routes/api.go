@@ -58,7 +58,7 @@ func Init() *echo.Echo {
 	e.GET("/kamar-tersedia/:id", controller.GetKamarTersediaByID)
 
 	// ENDPOINT SEWA (USER BISA SEWA KAMAR)
-	User.POST("/sewa", controller.CreateRent)
+	User.POST("/admin/sewa", controller.CreateRent)
 	User.POST("/user/sewa/:rent_id/cancel", controller.CancelRent)
 	User.GET("/user/sewa", controller.GetRent)
 	User.GET("/user/history", controller.GetRentHistory)
