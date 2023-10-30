@@ -6,31 +6,31 @@ import (
 )
 
 type KamarResponse struct {
-	ID         uint   `json:"id_kamar"`
-	NamaKamar  string `json:"namaKamar"`
-	PhotoKamar string `json:"photoKamar"`
+	ID         uint   `json:"IDKamar"`
+	NamaKamar  string `json:"NamaKamar"`
+	PhotoKamar string `json:"PhotoKamar"`
 	TipeKamar  struct {
-		Description string `json:"description"`
-		Fasilitas   string `json:"fasilitas"`
+		Description string `json:"DeskripsiKamar"`
+		Fasilitas   string `json:"Fasilitas"`
 	} `json:"TipeKamar"`
 }
 
 type TipeKamarResponse struct {
-	ID          uint   `json:"id_tipe"`
-	Description string `json:"description"`
-	Fasilitas   string `json:"fasilitas"`
+	ID          uint   `json:"IDTipeKamar"`
+	Description string `json:"DeskripsiKamar"`
+	Fasilitas   string `json:"Fasilitas"`
 }
 
 type KamarTersediaResponse struct {
-	ID     uint    `json:"id_available"`
-	Waktu  string  `json:"waktu"`
-	Status string  `json:"status"`
-	Price  float64 `json:"price"`
+	ID     uint    `json:"IDKamarTersedia"`
+	Waktu  string  `json:"Waktu"`
+	Status string  `json:"Status"`
+	Price  float64 `json:"Harga"`
 	Kamar  struct {
-		NamaKamar string `json:"namaKamar"`
+		NamaKamar string `json:"NamaKamar"`
 		TipeKamar struct {
-			Description string `json:"description"`
-			Fasilitas   string `json:"fasilitas"`
+			Description string `json:"DeskripsiKamar"`
+			Fasilitas   string `json:"FasilitasKamar"`
 		} `json:"TipeKamar"`
 	} `json:"Kamar"`
 }
@@ -111,26 +111,26 @@ func UpdateKamarTersediaAvailable(kamarTersediaID uint) error {
 }
 
 type RentResponse struct {
-	ID         int    `json:"RentID"`
-	CreatedAt  string `json:"BookedAt"`
-	RentStatus string `json:"RentStatus"`
+	ID         int    `json:"IDSewa"`
+	CreatedAt  string `json:"DipesanPada"`
+	RentStatus string `json:"StatusSewa"`
 	User       struct {
-		Name  string `json:"Name"`
+		Name  string `json:"Nama"`
 		Email string `json:"Email"`
-	} `json:"user"`
+	} `json:"User"`
 	KamarTersedia struct {
-		IDAvailable int    `json:"id_available"`
-		Waktu       string `json:"waktu"`
-		Status      string `json:"status"`
-		Harga       int    `json:"harga"`
+		IDAvailable int    `json:"IDKamarTersedia"`
+		Waktu       string `json:"Waktu"`
+		Status      string `json:"Status"`
+		Harga       int    `json:"Harga"`
 		Kamar       struct {
-			NamaKamar string `json:"namaKamar"`
+			NamaKamar string `json:"NamaKamar"`
 			TipeKamar struct {
-				Description string `json:"description"`
-				Fasilitas   string `json:"fasilitas"`
+				Description string `json:"DeskripsiKamar"`
+				Fasilitas   string `json:"FasilitasKamar"`
 			} `json:"TipeKamar"`
 		} `json:"Kamar"`
-	} `json:"kamar_tersedia"`
+	} `json:"KamarTersedia"`
 }
 
 func ResponseSewa(sewa models.Sewa) RentResponse {
