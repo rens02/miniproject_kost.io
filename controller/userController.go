@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -33,6 +34,7 @@ func Show(c echo.Context) error {
 
 func Store(c echo.Context) error {
 	var user web.UserRequest
+	user.Role = models.UserRole
 
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Invalid request body"))
@@ -53,7 +55,7 @@ func Store(c echo.Context) error {
 	return c.JSON(http.StatusCreated, utils.SuccessResponse("Success Created Data", response))
 }
 
-func Login(c echo.Context) error {
+func LoginUser(c echo.Context) error {
 	var loginRequest web.LoginRequest
 
 	if err := c.Bind(&loginRequest); err != nil {
@@ -61,7 +63,7 @@ func Login(c echo.Context) error {
 	}
 
 	var user models.User
-	if err := config.DB.Where("email = ?", loginRequest.Email).First(&user).Error; err != nil {
+	if err := config.DB.Where("email = ? AND role = ?", loginRequest.Email, models.UserRole).First(&user).Error; err != nil {
 		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
 	}
 
@@ -73,10 +75,26 @@ func Login(c echo.Context) error {
 
 	// Buat respons dengan data yang diminta
 	response := web.UserLoginResponse{
-		Email:    user.Email,
-		Password: loginRequest.Password,
-		Token:    token,
+		Email: user.Email,
+		Token: token,
 	}
 
-	return c.JSON(http.StatusOK, utils.SuccessResponse("Login successful", response))
+	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
+}
+
+func Profile(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	ID := int(claims["id"].(float64))
+
+	var profile models.User
+
+	if err := config.DB.First(&profile, ID).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve user"))
+	}
+
+	response := res.ConvertGeneral(&profile)
+
+	return c.JSON(http.StatusOK, utils.SuccessResponse("User data successfully retrieved", response))
+
 }

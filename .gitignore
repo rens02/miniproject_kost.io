@@ -29,3 +29,6 @@ go.work
 # Temporary File
 temp
 tmp
+controller/controller_test.go
+middleware/auth.go
+routes/api.go

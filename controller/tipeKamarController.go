@@ -3,6 +3,7 @@ package controller
 import (
 	"app/config"
 	"app/models"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -50,21 +51,33 @@ func DeleteTipeKamar(c echo.Context) error {
 }
 
 func UpdateTipeKamar(c echo.Context) error {
-	id := c.Param("id")
+	var updatedTipeKamar models.TipeKamar
 
-	var tipeKamar models.TipeKamar
-	if err := config.DB.First(&tipeKamar, id).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve room type"})
+	if err := c.Bind(&updatedTipeKamar); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "error getting updated TipeKamar data"})
 	}
 
-	if err := c.Bind(&tipeKamar).Error; err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Cannot bind tipe kamar"})
+	TipeKamarID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid Room type ID"})
 	}
 
-	if err := config.DB.Save(&tipeKamar).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to update room type"})
+	// Fetch the existing TipeKamar
+	existingTipeKamar := models.TipeKamar{}
+	err = config.DB.First(&existingTipeKamar, TipeKamarID).Error
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "error fetching existing TipeKamar data"})
 	}
 
-	return c.JSON(http.StatusOK, tipeKamar)
+	// Update TipeKamar information
+	existingTipeKamar.Description = updatedTipeKamar.Description
+	existingTipeKamar.Fasilitas = updatedTipeKamar.Fasilitas
 
+	// Save the updated TipeKamar
+	err = config.DB.Save(&existingTipeKamar).Error
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Failed to save updated"})
+	}
+
+	return c.JSON(http.StatusOK, updatedTipeKamar)
 }
