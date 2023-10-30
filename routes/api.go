@@ -36,6 +36,8 @@ func Init() *echo.Echo {
 	Admin.GET("/users/:id", controller.Show)
 	Admin.PUT("/admin/users/:id", controller.Update)
 	Admin.DELETE("/admin/users/:id", controller.Delete)
+	// User can see their profile
+	User.GET("/users/profile", controller.Profile)
 
 	// ENDPOINT TIPE KAMAR (ADMIN BISA TAMBAH KURANG EDIT TIPE KAMAR, USER HANYA BISA LIHAT)
 	Admin.POST("/admin/tipe-kamar", controller.CreateTipeKamar)
@@ -54,15 +56,14 @@ func Init() *echo.Echo {
 	Admin.POST("/kamar-tersedia", controller.CreateKamarTersedia)
 	e.GET("/kamar-tersedia", controller.GetAllKamarTersedia)
 	e.GET("/kamar-tersedia/:id", controller.GetKamarTersediaByID)
-	User.GET("/extract-jwt", controller.ExtractDataJWT)
 
 	// ENDPOINT SEWA (USER BISA SEWA KAMAR)
 	User.POST("/sewa", controller.CreateRent)
-	User.POST("/user/sewa/cancel", controller.CancelRent)
+	User.POST("/user/sewa/:rent_id/cancel", controller.CancelRent)
 	User.GET("/user/sewa", controller.GetRent)
 	User.GET("/user/history", controller.GetRentHistory)
 
-	User.POST("/user/rekomendasi", controller.GetRecommendation)
+	Admin.POST("/user/rekomendasi", controller.GetRecommendation)
 
 	return e
 
