@@ -79,8 +79,8 @@ func LoginAdmin(c echo.Context) error {
 	}
 
 	var user models.User
-	if err := config.DB.Where("email = ?", loginRequest.Email).First(&user).Error; err != nil {
-		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Invalid login credentials"))
+	if err := config.DB.Where("email = ? AND role = ?", loginRequest.Email, models.AdminRole).First(&user).Error; err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.ErrorResponse("Role is not Admin"))
 	}
 
 	if err := middleware.ComparePassword(user.Password, loginRequest.Password); err != nil {
@@ -91,9 +91,8 @@ func LoginAdmin(c echo.Context) error {
 
 	// Buat respons dengan data yang diminta
 	response := web.UserLoginResponse{
-		Email:    user.Email,
-		Password: loginRequest.Password,
-		Token:    token,
+		Email: user.Email,
+		Token: token,
 	}
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))

@@ -4,24 +4,23 @@ import "gorm.io/gorm"
 
 type TipeKamar struct {
 	gorm.Model
-	Description string `json:"description"`
-	Fasilitas   string `json:"fasilitas"`
+	ID          uint   `gorm:"primary_key" json:"IDTipeKamar"`
+	Description string `json:"Deskripsi"`
+	Fasilitas   string `json:"Fasilitas"`
 }
 
 // Room represents the Rooms models with NamaKamar and a reference to TipeKamar.
 type Kamar struct {
 	gorm.Model
-	NamaKamar   string    `json:"namaKamar"`
-	TipeKamarID uint      `json:"TipeKamarID"`
+	ID          uint      `gorm:"primary_key" json:"IDKamar"`
+	NamaKamar   string    `json:"NamaKamar"`
+	PhotoKamar  string    `json:"PhotoKamar"`
+	TipeKamarID uint      `json:"IDTipeKamar"`
 	TipeKamar   TipeKamar `gorm:"foreignKey:TipeKamarID" json:"TipeKamar"`
 }
 
-// RoomAvailable represents the RoomAvailable models with waktu, status, price, and a reference to Rooms.
-type KamarAvailable struct {
-	gorm.Model
-	Waktu   string  `json:"waktu"`
-	Status  string  `json:"status"`
-	Price   float64 `json:"price"`
-	KamarID uint    `json:"KamarID"`
-	Kamar   Kamar   `gorm:"foreignKey:KamarID json:"Kamar"`
+type KamarResponse struct {
+	ID          uint
+	Description string
+	Fasilitas   string
 }
