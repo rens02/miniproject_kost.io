@@ -26,7 +26,6 @@ func CreateRent(c echo.Context) error {
 	if err := c.Bind(&rent); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse("Failed to bind data"))
 	}
-
 	// Create the new rent in the database
 	if err := config.DB.Create(&rent).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to create rent"))

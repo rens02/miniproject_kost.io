@@ -10,14 +10,14 @@ type KamarResponse struct {
 	NamaKamar  string `json:"NamaKamar"`
 	PhotoKamar string `json:"PhotoKamar"`
 	TipeKamar  struct {
-		Description string `json:"DeskripsiKamar"`
+		Description string `json:"Deskripsi"`
 		Fasilitas   string `json:"Fasilitas"`
 	} `json:"TipeKamar"`
 }
 
 type TipeKamarResponse struct {
 	ID          uint   `json:"IDTipeKamar"`
-	Description string `json:"DeskripsiKamar"`
+	Description string `json:"Deskripsi"`
 	Fasilitas   string `json:"Fasilitas"`
 }
 
@@ -29,7 +29,7 @@ type KamarTersediaResponse struct {
 	Kamar  struct {
 		NamaKamar string `json:"NamaKamar"`
 		TipeKamar struct {
-			Description string `json:"DeskripsiKamar"`
+			Description string `json:"Deskripsi"`
 			Fasilitas   string `json:"FasilitasKamar"`
 		} `json:"TipeKamar"`
 	} `json:"Kamar"`
@@ -126,7 +126,7 @@ type RentResponse struct {
 		Kamar       struct {
 			NamaKamar string `json:"NamaKamar"`
 			TipeKamar struct {
-				Description string `json:"DeskripsiKamar"`
+				Description string `json:"Deskripsi"`
 				Fasilitas   string `json:"FasilitasKamar"`
 			} `json:"TipeKamar"`
 		} `json:"Kamar"`

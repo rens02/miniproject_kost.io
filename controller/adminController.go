@@ -2,6 +2,7 @@ package controller
 
 import (
 	"app/config"
+	"app/helpers"
 	"app/middleware"
 	"app/models"
 	"app/models/web"
@@ -96,4 +97,22 @@ func LoginAdmin(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, utils.SuccessResponse("LoginUser successful", response))
+}
+
+func GetUserHistory(c echo.Context) error {
+	ID := c.Param("id_user")
+
+	var rent []models.Sewa
+	if err := config.DB.Preload("User").Preload("KamarTersedia").Preload("KamarTersedia.Kamar").Preload("KamarTersedia.Kamar.TipeKamar").Where("user_id = ?", ID).Find(&rent).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to preload data"))
+	}
+
+	var responseList []helpers.RentResponse
+	for _, sewa := range rent {
+		response := helpers.ResponseHistory(sewa)
+		responseList = append(responseList, response)
+	}
+
+	// Return a JSON response with the created rent
+	return c.JSON(http.StatusOK, utils.SuccessResponse("Rent successfully Fetched", responseList))
 }

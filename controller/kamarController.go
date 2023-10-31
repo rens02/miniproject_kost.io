@@ -42,26 +42,6 @@ func DeleteKamar(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"message": "Room successfully deleted"})
 }
 
-// FITUR  UPDATE JANGAN LUPA DIGANTI
-func UpdateKamar(c echo.Context) error {
-	//id := c.Param("id")
-	//
-	//var kamar models.Kamar
-	//if err := config.DB.First(&kamar, id).Error; err != nil {
-	//	return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve room"})
-	//}
-	//
-	//if err := c.Bind(&kamar).Error; err != nil {
-	//	return c.JSON(http.StatusBadRequest, map[string]string{"error": "Failed to bind room data"})
-	//}
-	//
-	//if err := config.DB.Save(&kamar).Error; err != nil {
-	//	return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to update room"})
-	//}
-	//
-	return c.JSON(http.StatusOK, map[string]string{"message": "Room successfully updated"})
-}
-
 func GetAllKamar(c echo.Context) error {
 	var kamars []models.Kamar
 
