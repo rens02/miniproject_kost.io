@@ -13,14 +13,8 @@ type TipeKamar struct {
 type Kamar struct {
 	gorm.Model
 	ID          uint      `gorm:"primary_key" json:"IDKamar"`
-	NamaKamar   string    `json:"NamaKamar"`
-	PhotoKamar  string    `json:"PhotoKamar"`
-	TipeKamarID uint      `json:"IDTipeKamar"`
+	NamaKamar   string    `json:"NamaKamar" form:"NamaKamar"`
+	PhotoKamar  string    `json:"PhotoKamar" form:"PhotoKamar"`
+	TipeKamarID uint      `json:"IDTipeKamar" form:"IDTipeKamar"`
 	TipeKamar   TipeKamar `gorm:"foreignKey:TipeKamarID" json:"TipeKamar"`
-}
-
-type KamarResponse struct {
-	ID          uint
-	Description string
-	Fasilitas   string
 }
