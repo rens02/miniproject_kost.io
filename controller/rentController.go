@@ -78,7 +78,6 @@ func CancelRent(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, utils.ErrorResponse("Reservation not found or does not belong to the user"))
 	}
 	AvailableId := rent.KamarTersedia.ID
-	response := helpers.ResponseSewa(rent)
 	helpers.UpdateKamarTersediaAvailable(AvailableId)
 	// Update the reservation status to canceled
 	if err := config.DB.Model(&rent).Update("rent_status", models.RentStatusCanceled).Error; err != nil {
@@ -87,6 +86,7 @@ func CancelRent(c echo.Context) error {
 	if err := config.DB.Preload("User").Preload("KamarTersedia").Preload("KamarTersedia.Kamar").Preload("KamarTersedia.Kamar.TipeKamar").Where("user_id = ?", UserID).Find(&rent).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to preload data"))
 	}
+	response := helpers.ResponseSewa(rent)
 
 	// Return a JSON response with the created rent
 	return c.JSON(http.StatusOK, utils.SuccessResponse("Rent successfully canceled", response))

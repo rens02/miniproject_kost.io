@@ -53,7 +53,7 @@ func Init() *echo.Echo {
 	e.GET("/kamar", controller.GetAllKamar)
 
 	// EDNPOINT KAMAR TERSEDIA (ADMIN BISA TAMBAH KURANG EDIT KAMAR TERSEDIA)
-	Admin.POST("/kamar-tersedia", controller.CreateKamarTersedia)
+	Admin.POST("/admin/kamar-tersedia", controller.CreateKamarTersedia)
 	Admin.DELETE("/admin/kamar-tersedia/:id", controller.DeleteKamarTersedia)
 	Admin.PUT("/admin/kamar-tersedia/:id", controller.EditKamarTersedia)
 	e.GET("/kamar-tersedia", controller.GetAllKamarTersedia)

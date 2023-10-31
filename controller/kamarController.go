@@ -22,9 +22,13 @@ func CreateKamar(c echo.Context) error {
 	if err := config.DB.Create(&kamar).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to create room"))
 	}
+	if err := config.DB.Preload("TipeKamar").Find(&kamar).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse("Failed to retrieve rooms"))
+	}
+	response := helpers.KamarConvert(kamar)
 
 	// Return a JSON response with the created room
-	return c.JSON(http.StatusCreated, utils.SuccessResponse("Room successfully created", kamar))
+	return c.JSON(http.StatusCreated, utils.SuccessResponse("Room successfully created", response))
 }
 
 func DeleteKamar(c echo.Context) error {
